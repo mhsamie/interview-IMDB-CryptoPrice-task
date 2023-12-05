@@ -34,23 +34,23 @@ const Movies = () => {
   const { data: movies, isLoading } = useGetMovie(page, SearchableValue);
   return (
     <>
-      <div className="my-4 flex md:flex-row flex-col  md:justify-between">
-        <h1 className="font-black text-lg ">IMBD Movies</h1>
+      <div className="py-4 flex md:flex-row flex-col  md:justify-between">
+        <h1 className="font-black text-lg my-2 md:my-0 ">IMBD Movies</h1>
 
         <div className="flex gap-1">
           {" "}
           <input
             onChange={searchHandler}
             value={search}
-            className="focus:outline-none border-blue-500 border rounded-lg p-2 w-full md:w-56 lg:w-64 "
+            className="focus:outline-none bg-[#4747477a] bg-opacity-60 border-yellow-400 border rounded-lg p-2 w-full md:w-56 lg:w-64 "
             placeholder="search..."
           />
           <button
             onClick={() => setSearchableValue(search)}
-            className="px-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white"
+            className="px-2 rounded-lg bg-yellow-400 flex justify-center items-center hover:bg-yellow-500 text-white"
           >
             <svg
-              fill="white"
+              fill="#212121"
               className=" w-5 h-5 lg:w-6 lg:h-6"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 50 50"
@@ -71,19 +71,19 @@ const Movies = () => {
           ))
         )}
       </ul>
-      <div className="flex my-10 py-5 justify-between gap-4 items-center">
+      <div className="flex  py-10 justify-between gap-4 items-center">
         <span className="text-sm font-medium">
           page {page} of {Math.floor(movies?.totalResults / 10)}
         </span>
         <div className=" flex flex-row-reverse gap-2">
           <button
-            className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md text-white font-medium text-sm"
+            className="bg-yellow-400 hover:bg-yellow-500 px-4 py-2 rounded-md text-white font-medium text-sm"
             onClick={() => setPage((prev) => prev + 1)}
           >
             next
           </button>
           <button
-            className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md text-white font-medium text-sm"
+            className="bg-yellow-400 hover:bg-yellow-500 px-4 py-2 rounded-md text-white font-medium text-sm"
             onClick={() => setPage((prev) => prev - 1)}
           >
             prev

@@ -1,4 +1,4 @@
-import Movies from "@/components/Movies";
+import Movies from "@/components/movies-components/Movies";
 import React from "react";
 
 const page = () => {

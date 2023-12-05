@@ -20,9 +20,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <QueryProvider>
-        <body className={inter.className + "bg-gray-50 max-w-[1440px] mx-auto"}>
+        <body
+          className={inter.className + " text-white max-w-[1440px] mx-auto"}
+        >
           <Header />
-          <main className="my-10  px-2 md:px-5 xl:px-10">{children}</main>
+          <main className=" bg-[#212121] min-h-screen  px-2 md:px-5 xl:px-10">
+            {children}
+          </main>
           <Footer />
         </body>
       </QueryProvider>

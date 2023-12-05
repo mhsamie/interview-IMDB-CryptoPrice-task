@@ -7,17 +7,17 @@ const Header = () => {
   const segment = useSelectedLayoutSegment();
 
   return (
-    <header className="flex justify-between py-4 bg-white px-2 md:px-5 xl:px-10">
-      <div className="font-bold text-blue-900">
+    <header className="flex justify-between py-4 bg-[#212121] px-2 md:px-5 xl:px-10">
+      <div className="font-bold text-yellow-200 text-sm md:text-base">
         <span>Fatemeh Samie Task</span>
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-1 md:gap-2">
         <Link
           className={`${
             segment === "movies"
-              ? "bg-blue-100 text-blue-800"
-              : "hover:bg-blue-100 hover:text-blue-800"
-          } font-medium px-3 py-2 rounded-md duration-200`}
+              ? "bg-yellow-100 text-yellow-600"
+              : "hover:bg-yellow-100 hover:text-yellow-600"
+          } font-medium px-2 py-1 md:px-3 md:py-2 rounded-md text-sm md:text-base duration-200`}
           href={"/movies"}
         >
           IMDB
@@ -25,9 +25,9 @@ const Header = () => {
         <Link
           className={`${
             segment === null
-              ? "bg-blue-100 text-blue-800"
-              : "hover:bg-blue-100 hover:text-blue-800"
-          } font-medium px-3 py-2 rounded-md duration-200`}
+              ? "bg-yellow-100 text-yellow-500"
+              : "hover:bg-yellow-100 hover:text-yellow-500"
+          } font-medium px-2 py-1 text-sm md:text-base md:px-3 md:py-2 rounded-md duration-200`}
           href={"/"}
         >
           Crypto Info
