@@ -1,7 +1,7 @@
 "use client";
 import React, { FC, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+
+import useGetMovie from "@/hooks/useQetMoviesQuery";
 import MovieCard from "./MovieCard";
 import { movieDetailType } from "@/types";
 import Spiner from "../loaders/Spiner";
@@ -10,21 +10,7 @@ const Movies = () => {
   const [page, setPage] = useState<number>(1);
   const [search, setSearch] = useState<string>("");
   const [SearchableValue, setSearchableValue] = useState("all");
-  const useGetMovie = (page: number, s: string) => {
-    const fetchData = async () => {
-      const data = await axios.get(
-        `http://www.omdbapi.com/?i=tt3896198&apikey=21a719ad&s=${s}&page=${page}`
-      );
 
-      return data.data;
-    };
-    const movieData = useQuery({
-      queryKey: ["movies-list", page, s],
-      queryFn: fetchData,
-    });
-
-    return movieData;
-  };
   const searchHandler = (e: any) => {
     if (e.target.value === "") {
       setSearchableValue("all");

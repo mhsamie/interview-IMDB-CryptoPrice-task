@@ -24,7 +24,7 @@ export default function RootLayout({
           className={inter.className + " text-white max-w-[1440px] mx-auto"}
         >
           <Header />
-          <main className=" bg-[#212121] min-h-screen  px-2 md:px-5 xl:px-10">
+          <main className=" bg-[#212121] min-h-[85vh]  px-2 md:px-5 xl:px-10">
             {children}
           </main>
           <Footer />
