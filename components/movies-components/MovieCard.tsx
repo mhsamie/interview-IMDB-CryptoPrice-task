@@ -12,7 +12,9 @@ const MovieCard = ({ data }: { data: movieDetailType }): JSX.Element => {
     if (filmId.includes(id)) {
       setFilmId(filmId.filter((film) => film !== id));
     } else {
-      setFilmId([...filmId, id]);
+      setFilmId((prev) => {
+        return [...prev, id];
+      });
     }
   };
 

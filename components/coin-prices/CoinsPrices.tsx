@@ -4,27 +4,52 @@ import React, { useEffect, useRef, useState } from "react";
 import Table from "../Table/Table";
 import TableRow from "../Table/TableRow";
 import TableCell from "../Table/TableCell";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const CoinsPrices = () => {
   const [isConnected, setIsConnected] = useState(false);
-  const [coinData, setCoinData] = useState({});
+  const [coinsPrice, setCoinPrice] = useState({
+    ethereum: "0",
+    bitcoin: "0",
+    monero: "0",
+    litecoin: "0",
+  });
 
   const coins = useRef<any>(null);
   const mainObject = useRef<any>(null);
+  const useGetCoins = () => {
+    const result = useQuery({
+      queryKey: ["crypto-currencies"],
+      queryFn: async () => {
+        const data = await axios.get("https://api.coincap.io/v2/assets");
+        return data.data.data.slice(0, 4);
+      },
+    });
+
+    return result;
+  };
+  const { data } = useGetCoins();
 
   const wsMessageListerner = () => {
-    coins.current.on("open", () => setIsConnected(true));
+    coins.current.on("open", (e: any) => {
+      setIsConnected(true);
+    });
     coins.current.on("message", (e: any) => {
       const useableDtat = JSON.parse(e.data);
-      const mainCoins = mainObject.current;
-      //@ts-ignore
-      setCoinData({ ...coinData, ...useableDtat });
+
+      setCoinPrice((prev) => {
+        return { ...prev, ...useableDtat };
+      });
     });
   };
-  console.log(coinData);
+  console.log(coinsPrice);
+
   const connectToServer = () => {
     coins.current = new Socket();
-    coins.current.connect("wss://ws.coincap.io/prices?assets=ALL");
+    coins.current.connect(
+      "wss://ws.coincap.io/prices??assets=bitcoin,ethereum,monero,litecoin'"
+    );
     wsMessageListerner();
   };
 
@@ -43,12 +68,20 @@ const CoinsPrices = () => {
   }, []);
 
   return (
-    <Table tableHeads={[{ label: "hi", minWidth: "200" }]}>
-      {mainObject?.current !== null &&
-        [...mainObject?.current]?.map((m: any) => (
-          <TableRow>
+    <Table
+      tableHeads={[
+        { label: "coin name", minWidth: "200" },
+        { label: "coin price", minWidth: "200" },
+      ]}
+    >
+      {coinsPrice !== null &&
+        Object.keys(coinsPrice)?.map((m: any, i) => (
+          <TableRow key={i}>
             <TableCell>
-              <span>test</span>
+              <span>{m}</span>
+            </TableCell>
+            <TableCell>
+              <span>{coinsPrice[m]}</span>
             </TableCell>
           </TableRow>
         ))}
