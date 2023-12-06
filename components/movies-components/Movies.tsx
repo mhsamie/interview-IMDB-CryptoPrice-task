@@ -9,13 +9,13 @@ import Spiner from "../loaders/Spiner";
 const Movies = () => {
   const [page, setPage] = useState<number>(1);
   const [search, setSearch] = useState<string>("");
-  const [SearchableValue, setSearchableValue] = useState("all");
+  const [SearchableValue, setSearchableValue] = useState<string>("all");
 
-  const searchHandler = (e: any) => {
-    if (e.target.value === "") {
+  const searchHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    if (event.target.value === "") {
       setSearchableValue("all");
     }
-    setSearch(e.target.value);
+    setSearch(event.target.value);
   };
 
   const { data: movies, isLoading } = useGetMovie(page, SearchableValue);
@@ -67,13 +67,17 @@ const Movies = () => {
         <div className=" flex flex-row-reverse gap-2">
           <button
             className="bg-yellow-400 hover:bg-yellow-500 px-4 py-2 rounded-md text-white font-medium text-sm"
-            onClick={() => setPage((prev) => prev + 1)}
+            onClick={() =>
+              setPage((prev) =>
+                prev < Math.floor(movies?.totalResults / 10) ? prev + 1 : prev
+              )
+            }
           >
             next
           </button>
           <button
             className="bg-yellow-400 hover:bg-yellow-500 px-4 py-2 rounded-md text-white font-medium text-sm"
-            onClick={() => setPage((prev) => prev - 1)}
+            onClick={() => setPage((prev) => (prev > 1 ? prev - 1 : prev))}
           >
             prev
           </button>{" "}

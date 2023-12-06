@@ -9,7 +9,7 @@ import Spiner from "../loaders/Spiner";
 import useGetCoins from "@/hooks/useGetCoinsQuery";
 
 const CoinsPrices = () => {
-  const [isConnected, setIsConnected] = useState(false);
+  const [isConnected, setIsConnected] = useState<boolean>(false);
   const [coinsPrice, setCoinPrice] = useState<{
     [key: string]: string;
   }>({});
@@ -20,7 +20,7 @@ const CoinsPrices = () => {
     coins.current.on("open", () => {
       setIsConnected(true);
     });
-    coins.current.on("message", (e: any) => {
+    coins.current.on("message", (e: MessageEvent) => {
       const useableDtat = JSON.parse(e.data);
       setCoinPrice((prev) => {
         return { ...prev, ...useableDtat };
@@ -78,21 +78,21 @@ const CoinsPrices = () => {
         </TableRow>
       )}
       {coinsPrice ? (
-        Object.keys(coinsPrice)?.map((m: string, i) => (
+        Object.keys(coinsPrice)?.map((eachCoin: string, i) => (
           <TableRow key={i} classes="border-b border-gray-600">
             <TableCell>
               <div className="flex gap-2 lg:gap-3 items-center">
                 <Image
                   width={24}
                   height={24}
-                  alt={m}
-                  src={`https://coinicons-api.vercel.app/api/icon/${cryptoIconEnum[m]}`}
+                  alt={eachCoin}
+                  src={`https://coinicons-api.vercel.app/api/icon/${cryptoIconEnum[eachCoin]}`}
                 />
-                <span>{m}</span>
+                <span>{eachCoin}</span>
               </div>
             </TableCell>
             <TableCell>
-              <span>{coinsPrice[m]}</span>
+              <span>{coinsPrice[eachCoin]}</span>
             </TableCell>
           </TableRow>
         ))

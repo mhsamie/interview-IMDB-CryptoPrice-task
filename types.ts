@@ -5,6 +5,12 @@ export interface movieDetailType {
     Year: string,
     imdbID: string
 }
+enum MovieType {
+    Movie = "movie",
+    Series = "series",
+    Episode = "episode",
+}
+
 
 export interface eachMovieDetailsType {
     Actors: string,
@@ -28,7 +34,7 @@ export interface eachMovieDetailsType {
     Response: string,
     Runtime: string,
     Title: string,
-    Type: string,
+    Type: MovieType,
     Website: string,
     Writer: string,
     Year: string,
