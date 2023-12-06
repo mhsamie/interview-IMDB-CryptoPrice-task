@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import MovieCard from "./MovieCard";
 import { movieDetailType } from "@/types";
+import Spiner from "../loaders/Spiner";
 
 const Movies = () => {
   const [page, setPage] = useState<number>(1);
@@ -62,15 +63,17 @@ const Movies = () => {
           </button>
         </div>
       </div>
-      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-4">
-        {isLoading ? (
-          <p>loading...</p>
-        ) : (
-          movies?.Search?.map((m: movieDetailType) => (
+      {isLoading ? (
+        <div className="flex w-full h-screen justify-center items-center">
+          <Spiner />
+        </div>
+      ) : (
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-4">
+          {movies?.Search?.map((m: movieDetailType) => (
             <MovieCard key={m.imdbID} data={m} />
-          ))
-        )}
-      </ul>
+          ))}
+        </ul>
+      )}
       <div className="flex  py-10 justify-between gap-4 items-center">
         <span className="text-sm font-medium">
           page {page} of {Math.floor(movies?.totalResults / 10)}

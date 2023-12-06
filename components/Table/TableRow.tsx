@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 
 const TableRow: FC<{
-  classes?: any;
+  classes?: string;
   children: React.ReactNode;
   onclick?: () => void;
 }> = ({ classes, children, onclick }) => {
