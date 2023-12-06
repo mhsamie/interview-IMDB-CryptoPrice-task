@@ -53,36 +53,42 @@ const Movies = () => {
         <div className="flex w-full h-screen justify-center items-center">
           <Spiner />
         </div>
-      ) : (
+      ) : movies?.Search ? (
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-4">
           {movies?.Search?.map((m: movieDetailType) => (
             <MovieCard key={m.imdbID} data={m} />
           ))}
         </ul>
-      )}
-      <div className="flex  py-10 justify-between gap-4 items-center">
-        <span className="text-sm font-medium">
-          page {page} of {Math.floor(movies?.totalResults / 10)}
-        </span>
-        <div className=" flex flex-row-reverse gap-2">
-          <button
-            className="bg-yellow-400 hover:bg-yellow-500 px-4 py-2 rounded-md text-white font-medium text-sm"
-            onClick={() =>
-              setPage((prev) =>
-                prev < Math.floor(movies?.totalResults / 10) ? prev + 1 : prev
-              )
-            }
-          >
-            next
-          </button>
-          <button
-            className="bg-yellow-400 hover:bg-yellow-500 px-4 py-2 rounded-md text-white font-medium text-sm"
-            onClick={() => setPage((prev) => (prev > 1 ? prev - 1 : prev))}
-          >
-            prev
-          </button>{" "}
+      ) : (
+        <div className="text-amber-400 text-center w-full min-h-[70vh]">
+          No data.
         </div>
-      </div>
+      )}
+      {movies?.Search && (
+        <div className="flex  py-10 justify-between gap-4 items-center">
+          <span className="text-sm font-medium">
+            page {page} of {Math.floor(movies?.totalResults / 10)}
+          </span>
+          <div className=" flex flex-row-reverse gap-2">
+            <button
+              className="bg-yellow-400 hover:bg-yellow-500 px-4 py-2 rounded-md text-white font-medium text-sm"
+              onClick={() =>
+                setPage((prev) =>
+                  prev < Math.floor(movies?.totalResults / 10) ? prev + 1 : prev
+                )
+              }
+            >
+              next
+            </button>
+            <button
+              className="bg-yellow-400 hover:bg-yellow-500 px-4 py-2 rounded-md text-white font-medium text-sm"
+              onClick={() => setPage((prev) => (prev > 1 ? prev - 1 : prev))}
+            >
+              prev
+            </button>{" "}
+          </div>
+        </div>
+      )}
     </>
   );
 };
