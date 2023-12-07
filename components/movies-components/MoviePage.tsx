@@ -25,7 +25,7 @@ const MoviePage: FC<{ name: string }> = ({ name }) => {
       ) : (
         <>
           <Image
-            src={(data as eachMovieDetailsType)?.Poster}
+            src={(data as eachMovieDetailsType)?.Poster ?? ""}
             alt={(data as eachMovieDetailsType)?.Title}
             width={380}
             height={550}

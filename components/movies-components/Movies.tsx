@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 
 import useGetMovie from "@/hooks/useQetMoviesQuery";
 import MovieCard from "./MovieCard";
@@ -10,6 +10,28 @@ const Movies = () => {
   const [page, setPage] = useState<number>(1);
   const [search, setSearch] = useState<string>("");
   const [SearchableValue, setSearchableValue] = useState<string>("all");
+  const [filmId, setFilmId] = useState<string[]>([]);
+
+  useEffect(() => {
+    const likedMovies = localStorage.getItem("likedMovies");
+    if (likedMovies && likedMovies.trim() !== "") {
+      try {
+        setFilmId(JSON.parse(likedMovies));
+      } catch (e) {
+        console.error("Invalid JSON:", e);
+      }
+    }
+  }, []);
+
+  const likeHandler = (id: string): void => {
+    setFilmId((prev) => {
+      const updatedFilmIds = prev.includes(id)
+        ? prev.filter((film) => film !== id)
+        : [...prev, id];
+      localStorage.setItem("likedMovies", JSON.stringify(updatedFilmIds));
+      return updatedFilmIds;
+    });
+  };
 
   const searchHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (event.target.value === "") {
@@ -55,8 +77,13 @@ const Movies = () => {
         </div>
       ) : movies?.Search ? (
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-4">
-          {movies?.Search?.map((m: movieDetailType) => (
-            <MovieCard key={m.imdbID} data={m} />
+          {movies?.Search?.map((data: movieDetailType) => (
+            <MovieCard
+              likeHandler={likeHandler}
+              key={data.imdbID}
+              data={data}
+              filmId={filmId}
+            />
           ))}
         </ul>
       ) : (

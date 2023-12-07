@@ -3,25 +3,17 @@
 import { movieDetailType } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 
-const MovieCard = ({ data }: { data: movieDetailType }): JSX.Element => {
-  const [filmId, setFilmId] = useState<string[]>([]);
-
-  const likeHandler = (id: string): void => {
-    if (filmId.includes(id)) {
-      setFilmId(filmId.filter((film) => film !== id));
-    } else {
-      setFilmId((prev) => {
-        return [...prev, id];
-      });
-    }
-  };
-
+const MovieCard: FC<{
+  data: movieDetailType;
+  filmId: string[];
+  likeHandler: (id: string) => void;
+}> = ({ data, filmId, likeHandler }): JSX.Element => {
   return (
     <li className="rounded-lg flex flex-col  shadow  p-2 2xl:p-5 border border-gray-300 w-full h-full">
       <Image
-        src={data?.Poster}
+        src={data?.Poster ?? ""}
         alt={data?.Title}
         width={100}
         height={100}
