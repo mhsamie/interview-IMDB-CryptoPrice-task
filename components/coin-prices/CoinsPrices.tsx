@@ -9,43 +9,43 @@ import Spiner from "../loaders/Spiner";
 import useGetCoins from "@/hooks/useGetCoinsQuery";
 
 const CoinsPrices = () => {
-  const [isConnected, setIsConnected] = useState<boolean>(false);
   const [coinsPrice, setCoinPrice] = useState<{
     [key: string]: string;
   }>({});
-  const coins = useRef<any>(null);
+  const coinsWS = useRef<any>(null);
   const { isSuccess, isLoading, refetch } = useGetCoins(setCoinPrice);
 
   const wsMessageListerner = () => {
-    coins.current.on("open", () => {
-      setIsConnected(true);
-    });
-    coins.current.on("message", (e: MessageEvent) => {
+    coinsWS.current.on("message", (e: MessageEvent) => {
       const useableDtat = JSON.parse(e.data);
       setCoinPrice((prev) => {
         return { ...prev, ...useableDtat };
       });
     });
+
+    coinsWS.current.on("close", () => {
+      setTimeout(function () {
+        coinsWS.current = null;
+        connectToServer();
+      }, 3000);
+    });
   };
 
   const connectToServer = () => {
     refetch();
-    coins.current = new Socket();
-    coins.current.connect(
+    coinsWS.current = new Socket();
+    coinsWS.current.connect(
       "wss://ws.coincap.io/prices??assets=bitcoin,ethereum,monero,ripple,bitcoin-cash,tether,binance-coin,eos,tron,ethereum-classic,stellar,cardano"
     );
     wsMessageListerner();
   };
 
   useEffect(() => {
-    if (!isConnected) setTimeout(() => connectToServer(), 3000);
-  }, [isConnected]);
-
-  useEffect(() => {
-    connectToServer();
+    if (isSuccess) {
+      connectToServer();
+    }
     return () => {
-      coins.current.close();
-      setIsConnected(false);
+      coinsWS.current?.close();
     };
   }, [isSuccess]);
 
